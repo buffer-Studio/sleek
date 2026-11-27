@@ -1,0 +1,15 @@
+node_modules/
+build/
+dist/
+coverage/
+native/target/
+*.node
+.refs/
+docs/
+.agents/skills/
+*.md
+.agents/logs/
+.agents/.cache/
+bun.lock
+bun.lockb
+*.log

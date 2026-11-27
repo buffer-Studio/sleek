@@ -1,0 +1,62 @@
+{
+  "name": "Sleek",
+  "dockerComposeFile": ["../docker-compose.yml", "docker-compose.yml"],
+  "service": "workspace",
+  "workspaceFolder": "/workspaces/sleek",
+  "shutdownAction": "stopCompose",
+  "remoteUser": "vscode",
+  "runServices": ["workspace", "postgres", "valkey"],
+  "forwardPorts": [3000, 5432, 6379],
+  "portsAttributes": {
+    "3000": {
+      "label": "Sleek HTTP Ingress",
+      "onAutoForward": "notify"
+    },
+    "5432": {
+      "label": "PostgreSQL",
+      "onAutoForward": "silent"
+    },
+    "6379": {
+      "label": "Valkey",
+      "onAutoForward": "silent"
+    }
+  },
+  "remoteEnv": {
+    "DATABASE_URL": "postgresql://sleek:sleek@postgres:5432/sleek",
+    "VALKEY_URL": "redis://valkey:6379",
+    "RAYON_NUM_THREADS": "4"
+  },
+  "postCreateCommand": "sudo chown -R vscode:vscode /workspaces/sleek/node_modules /workspaces/sleek/native/target /usr/local/cargo/registry && bun install && bun run build:native",
+  "postStartCommand": "bun run db:push",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "files.eol": "\n",
+        "files.insertFinalNewline": true,
+        "files.trimTrailingWhitespace": true,
+        "rust-analyzer.linkedProjects": ["native/Cargo.toml"],
+        "search.exclude": {
+          "**/.refs": true,
+          "**/node_modules": true,
+          "**/build": true,
+          "**/native/target": true
+        }
+      },
+      "extensions": [
+        "oven.bun-vscode",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml",
+        "EditorConfig.EditorConfig",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  }
+}

@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Bun
+bun.lockb
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+
+# Logs & Agent Caches
+logs/
+.agents/logs/
+.agents/.cache/
+*.log
+.logs/
+
+# Build, Typecheck & Lint Caches
+build/
+dist/
+coverage/
+*.tsbuildinfo
+.eslintcache
+
+# Native Rust / napi-rs
+native/target/
+*.node
+
+# Local References, Docs & Worktrees
+docs/
+.worktrees/
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/extensions.json
+.idea/

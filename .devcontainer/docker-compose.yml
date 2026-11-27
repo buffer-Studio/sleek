@@ -1,0 +1,26 @@
+services:
+  workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    init: true
+    volumes:
+      - ..:/workspaces/sleek:cached
+      - sleek_node_modules:/workspaces/sleek/node_modules
+      - sleek_cargo_target:/workspaces/sleek/native/target
+      - sleek_cargo_registry:/usr/local/cargo/registry
+    command: sleep infinity
+    environment:
+      DATABASE_URL: postgresql://sleek:sleek@postgres:5432/sleek
+      VALKEY_URL: redis://valkey:6379
+      RAYON_NUM_THREADS: '4'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      valkey:
+        condition: service_healthy
+
+volumes:
+  sleek_node_modules:
+  sleek_cargo_target:
+  sleek_cargo_registry:

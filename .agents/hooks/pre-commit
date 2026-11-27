@@ -1,0 +1,16 @@
+#!/bin/sh
+# Sleek Git Pre-Commit Hook
+# Executes sub-second staged diff verification using Bun.
+
+if [ "$SLEEK_SKIP_VERIFY" = "1" ]; then
+  echo "SLEEK_SKIP_VERIFY is set. Skipping pre-commit verification."
+  exit 0
+fi
+
+if ! command -v bun >/dev/null 2>&1; then
+  echo "Error: 'bun' command not found. Please install Bun (https://bun.sh) to commit."
+  exit 1
+fi
+
+bun run verify:staged
+exit $?

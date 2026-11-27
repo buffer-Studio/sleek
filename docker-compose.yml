@@ -1,0 +1,34 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sleek
+      POSTGRES_PASSWORD: sleek
+      POSTGRES_DB: sleek
+    ports:
+      - '5432:5432'
+    volumes:
+      - sleek_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U sleek -d sleek']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  valkey:
+    image: valkey/valkey:8-alpine
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    volumes:
+      - sleek_valkey_data:/data
+    healthcheck:
+      test: ['CMD', 'valkey-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  sleek_pg_data:
+  sleek_valkey_data:

@@ -1,0 +1,47 @@
+- name: bug
+  color: "d73a4a"
+  description: Something isn't working
+
+- name: enhancement
+  color: "a2eeef"
+  description: New feature or request
+
+- name: documentation
+  color: "0075ca"
+  description: Improvements or additions to documentation
+
+- name: refactor
+  color: "fbca04"
+  description: Code improvement without behavior change
+
+- name: security
+  color: "b60205"
+  description: Security issue or vulnerability
+
+- name: dependencies
+  color: "0366d6"
+  description: Dependency updates
+
+- name: ci
+  color: "ededed"
+  description: CI/CD and workflow changes
+
+- name: good first issue
+  color: "7057ff"
+  description: Good for newcomers
+
+- name: help wanted
+  color: "008672"
+  description: Extra attention is needed
+
+- name: "priority: high"
+  color: "d93f0b"
+  description: High priority item
+
+- name: "priority: medium"
+  color: "fbca04"
+  description: Medium priority item
+
+- name: "priority: low"
+  color: "0e8a16"
+  description: Low priority item
