@@ -12,7 +12,7 @@ license = "AGPL-3.0-or-later OR GPL-3.0-or-later OR Apache-2.0"
 license-file = "../LICENSE"
 
 [workspace.dependencies]
-napi = { version = "2.16.17", default-features = false, features = ["napi8", "tokio_rt", "dyn-symbols"] }
+napi = { version = "3.16.3", default-features = false, features = ["napi8", "tokio_rt", "dyn-symbols"] }
 napi-derive = "2.16.13"
 napi-build = "2.1.6"
 tokio = { version = "1.43.0", features = ["rt-multi-thread", "macros", "sync", "time"] }
