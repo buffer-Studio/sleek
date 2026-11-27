@@ -1,0 +1,31 @@
+[workspace]
+resolver = "2"
+members = [
+  "crates/sleek_gateway",
+  "crates/sleek_napi",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "AGPL-3.0-or-later OR GPL-3.0-or-later OR Apache-2.0"
+license-file = "../LICENSE"
+
+[workspace.dependencies]
+napi = { version = "2.16.17", default-features = false, features = ["napi8", "tokio_rt", "dyn-symbols"] }
+napi-derive = "2.16.13"
+napi-build = "2.1.6"
+tokio = { version = "1.43.0", features = ["rt-multi-thread", "macros", "sync", "time"] }
+futures-util = "0.3.31"
+twilight-gateway = { version = "0.16.0", default-features = false, features = ["rustls-webpki-roots", "zlib-stock"] }
+twilight-model = "0.16.0"
+tokio-tungstenite = { version = "0.26.2", features = ["rustls-tls-webpki-roots"] }
+serde = { version = "1.0.217", features = ["derive"] }
+serde_json = { version = "1.0.138", features = ["raw_value"] }
+rustls = { version = "0.23", default-features = false, features = ["ring"] }
+
+[profile.release]
+panic = "unwind"
+lto = "thin"
+codegen-units = 1
+

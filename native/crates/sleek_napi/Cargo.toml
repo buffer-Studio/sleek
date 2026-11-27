@@ -1,0 +1,17 @@
+[package]
+name = "sleek_napi"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+sleek_gateway = { path = "../sleek_gateway" }
+napi.workspace = true
+napi-derive.workspace = true
+tokio.workspace = true
+
+[build-dependencies]
+napi-build.workspace = true
