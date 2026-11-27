@@ -1,0 +1,282 @@
+import {AuthorityLevel, GlobalBotStaffTier} from './authorityLevel';
+
+export type PermissionNodeKind = 'authority' | 'ownership';
+
+export type PermissionNodeScope = 'guild' | 'global';
+
+export interface PermissionNodeMetadata {
+  readonly kind: PermissionNodeKind;
+  readonly minTier: AuthorityLevel;
+  readonly sovereign: boolean;
+  readonly scope: PermissionNodeScope;
+  readonly minBotStaffTier?: GlobalBotStaffTier;
+}
+
+function guildNode(
+  minTier: AuthorityLevel,
+  sovereign = false,
+  kind: PermissionNodeKind = 'authority',
+): PermissionNodeMetadata {
+  return {kind, minTier, sovereign, scope: 'guild'};
+}
+
+function globalNode(
+  minBotStaffTier: GlobalBotStaffTier,
+  sovereign = false,
+): PermissionNodeMetadata {
+  return {
+    kind: 'authority',
+    minTier: AuthorityLevel.PlatformDeveloper,
+    sovereign,
+    scope: 'global',
+    minBotStaffTier,
+  };
+}
+
+export const PERMISSION_NODES = {
+  // antinuke & ingress protection
+  'antinuke.view': guildNode(AuthorityLevel.BoundStaff),
+  'antinuke.config.view': guildNode(AuthorityLevel.BoundStaff),
+  'antinuke.list': guildNode(AuthorityLevel.BoundStaff),
+  'antinuke.admins.view': guildNode(AuthorityLevel.BoundStaff),
+  'antinuke.admin.manage': guildNode(AuthorityLevel.TrueOwner, true),
+  'antinuke.whitelist.manage': guildNode(AuthorityLevel.ActingOwner, true),
+  'antinuke.module.ban': guildNode(AuthorityLevel.ActingOwner),
+  'antinuke.module.kick': guildNode(AuthorityLevel.ActingOwner),
+  'antinuke.module.channel': guildNode(AuthorityLevel.ActingOwner),
+  'antinuke.module.role': guildNode(AuthorityLevel.ActingOwner),
+  'antinuke.module.webhook': guildNode(AuthorityLevel.ActingOwner),
+  'antinuke.module.emoji': guildNode(AuthorityLevel.ActingOwner),
+  'antinuke.module.vanity': guildNode(AuthorityLevel.ActingOwner),
+  'antinuke.module.botadd': guildNode(AuthorityLevel.ActingOwner),
+  'antinuke.module.permissions': guildNode(AuthorityLevel.ActingOwner),
+  'security.joingate.view': guildNode(AuthorityLevel.BoundStaff),
+  'security.joingate.age': guildNode(AuthorityLevel.BoundAdmin),
+  'security.joingate.avatar': guildNode(AuthorityLevel.BoundAdmin),
+  'security.joingate.massjoin': guildNode(AuthorityLevel.BoundAdmin),
+  'security.joingate.quarantine': guildNode(AuthorityLevel.BoundAdmin),
+  'security.joingate.lock': guildNode(AuthorityLevel.BoundAdmin),
+  'security.joingate.clean': guildNode(AuthorityLevel.BoundAdmin, true),
+  'security.joingate.whitelist': guildNode(AuthorityLevel.BoundAdmin),
+
+  // moderation
+  'moderation.ban': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.ban.temp': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.ban.soft': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.ban.hard': guildNode(AuthorityLevel.BoundAdmin, true),
+  'moderation.ban.recent': guildNode(AuthorityLevel.BoundAdmin),
+  'moderation.ban.unban': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.ban.all': guildNode(AuthorityLevel.TrueOwner, true),
+  'moderation.ban.mass': guildNode(AuthorityLevel.BoundAdmin, true),
+  'moderation.kick': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.timeout.apply': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.timeout.remove': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.timeout.mass': guildNode(AuthorityLevel.BoundAdmin, true),
+  'moderation.mute.apply': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.mute.remove': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.mute.mass': guildNode(AuthorityLevel.BoundAdmin, true),
+  'moderation.mute.list': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.amute.apply': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.amute.remove': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.jail.apply': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.jail.remove': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.jail.mass': guildNode(AuthorityLevel.BoundAdmin, true),
+  'moderation.jail.list': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.warn.add': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.warn.view': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.warn.remove': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.warn.clear': guildNode(AuthorityLevel.BoundAdmin, true),
+  'moderation.afk.clear': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.afk.clear.all': guildNode(AuthorityLevel.BoundAdmin, true),
+  'moderation.afk.list': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.member.nickname': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.member.nickname.sticky': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.case.view': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.case.edit': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.case.history': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.case.history.hidden': guildNode(AuthorityLevel.BoundAdmin),
+  'moderation.case.history.csv': guildNode(AuthorityLevel.BoundAdmin),
+  'moderation.case.delete': guildNode(AuthorityLevel.TrueOwner, true),
+  'moderation.case.modhistory': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.case.modstats': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.notes.manage': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.proof.view': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.proof.manage': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.proof.internal': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.audit.reconcile': guildNode(AuthorityLevel.BoundAdmin),
+  'moderation.undo': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.case.preset.manage': guildNode(AuthorityLevel.BoundAdmin),
+  'moderation.case.preset.view': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.case.userpreset': guildNode(AuthorityLevel.Member),
+  'moderation.channel.lock': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.channel.lock.role': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.channel.unlock': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.channel.all': guildNode(AuthorityLevel.TrueOwner, true),
+  'moderation.channel.visibility': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.channel.slowmode': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.channel.revokefiles': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.channel.clearinvites': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.channel.clone': guildNode(AuthorityLevel.BoundAdmin),
+  'moderation.purge': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.purge.medium': guildNode(AuthorityLevel.BoundAdmin),
+  'moderation.purge.all': guildNode(AuthorityLevel.TrueOwner, true),
+  'moderation.purge.bots': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.purge.user': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.purge.role': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.purge.links': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.purge.files': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.purge.embeds': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.purge.match': guildNode(AuthorityLevel.BoundAdmin),
+  'moderation.purge.id': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.purge.antiraid': guildNode(AuthorityLevel.BoundAdmin),
+  'moderation.purge.csv': guildNode(AuthorityLevel.BoundAdmin),
+  'moderation.channel.nuke': guildNode(AuthorityLevel.BoundAdmin),
+  'moderation.channel.nuke.schedule': guildNode(AuthorityLevel.BoundAdmin),
+  'moderation.thread.manage': guildNode(AuthorityLevel.BoundStaff),
+  'moderation.thread.watch': guildNode(AuthorityLevel.BoundStaff),
+
+  // security governance
+  'security.staff.bind': guildNode(AuthorityLevel.BoundAdmin),
+  'security.admin.bind': guildNode(AuthorityLevel.TrueOwner, true),
+  'security.staff.strip': guildNode(AuthorityLevel.BoundAdmin, true),
+  'security.isolation.manage': guildNode(AuthorityLevel.BoundAdmin, true),
+  'security.admin.strip': guildNode(AuthorityLevel.TrueOwner, true),
+  'security.fakeperms.view': guildNode(AuthorityLevel.BoundStaff),
+  'security.fakeperms.manage': guildNode(AuthorityLevel.BoundAdmin, true),
+  'security.fakeperms.reset': guildNode(AuthorityLevel.TrueOwner, true),
+  'security.quota.view': guildNode(AuthorityLevel.BoundStaff),
+  'security.quota.manage': guildNode(AuthorityLevel.BoundAdmin),
+  'security.quota.reset': guildNode(AuthorityLevel.BoundAdmin),
+  'security.actingowner.view': guildNode(AuthorityLevel.BoundAdmin),
+  'security.actingowner.manage': guildNode(AuthorityLevel.TrueOwner, true),
+  'security.actingowner.threshold': guildNode(AuthorityLevel.TrueOwner, true),
+  'security.actingowner.rollback': guildNode(AuthorityLevel.TrueOwner, true),
+
+  // server governance, settings & aliases
+  'server.setup.manage': guildNode(AuthorityLevel.TrueOwner, true),
+  'server.setupmute.manage': guildNode(AuthorityLevel.TrueOwner, true),
+  'server.settings.modlog': guildNode(AuthorityLevel.BoundAdmin),
+  'server.settings.joinlogs': guildNode(AuthorityLevel.BoundAdmin),
+  'server.prefix.manage': guildNode(AuthorityLevel.BoundAdmin),
+  'server.prefix.view': guildNode(AuthorityLevel.Member),
+  'server.alias.view': guildNode(AuthorityLevel.Member),
+  'server.alias.manage': guildNode(AuthorityLevel.BoundAdmin),
+  'server.alias.user': guildNode(AuthorityLevel.Member),
+  'server.alias.macro': guildNode(AuthorityLevel.BoundAdmin),
+  'server.alias.reset': guildNode(AuthorityLevel.TrueOwner, true),
+  'server.governance.commands': guildNode(AuthorityLevel.BoundAdmin),
+  'server.governance.modules': guildNode(AuthorityLevel.BoundAdmin),
+  'server.governance.copy': guildNode(AuthorityLevel.BoundAdmin),
+  'server.badge.manage': guildNode(AuthorityLevel.BoundAdmin),
+  'server.honeypot.manage': guildNode(AuthorityLevel.BoundAdmin),
+  'server.ignore.manage': guildNode(AuthorityLevel.BoundAdmin),
+  'server.webhook.manage': guildNode(AuthorityLevel.BoundAdmin),
+  'server.imgonly.manage': guildNode(AuthorityLevel.BoundAdmin),
+  'server.customize.manage': guildNode(AuthorityLevel.BoundAdmin),
+  'server.governance.cleargnames': guildNode(AuthorityLevel.BoundAdmin),
+  'server.filter.view': guildNode(AuthorityLevel.BoundStaff),
+  'server.filter.manage': guildNode(AuthorityLevel.BoundAdmin),
+  'server.welcome.view': guildNode(AuthorityLevel.BoundStaff),
+  'server.welcome.manage': guildNode(AuthorityLevel.BoundAdmin),
+  'server.autoresponder.view': guildNode(AuthorityLevel.BoundStaff),
+  'server.autoresponder.manage': guildNode(AuthorityLevel.BoundAdmin),
+  'server.snipe.view': guildNode(AuthorityLevel.Member),
+  'server.snipe.clear': guildNode(AuthorityLevel.BoundStaff),
+  'server.tagscript.eval': guildNode(AuthorityLevel.Member),
+  'server.tagscript.action.manage': guildNode(AuthorityLevel.BoundAdmin),
+
+  // information
+  'information.membercount.view': guildNode(AuthorityLevel.Member),
+  'information.seen.view': guildNode(AuthorityLevel.Member),
+  'information.names.view': guildNode(AuthorityLevel.Member),
+  'information.names.clear': guildNode(AuthorityLevel.Member),
+  'information.roleinfo.view': guildNode(AuthorityLevel.Member),
+  'information.roles.view': guildNode(AuthorityLevel.Member),
+  'information.members.view': guildNode(AuthorityLevel.Member),
+  'information.userinfo.view': guildNode(AuthorityLevel.Member),
+  'information.userinfo.audit': guildNode(AuthorityLevel.BoundStaff),
+  'information.serverinfo.view': guildNode(AuthorityLevel.Member),
+  'information.serverinfo.audit': guildNode(AuthorityLevel.BoundStaff),
+  'information.avatar.view': guildNode(AuthorityLevel.Member),
+  'information.banner.view': guildNode(AuthorityLevel.Member),
+
+  // giveaways & leveling
+  'giveaway.lifecycle.create': guildNode(AuthorityLevel.BoundStaff),
+  'giveaway.lifecycle.end': guildNode(AuthorityLevel.BoundStaff),
+  'giveaway.lifecycle.reroll': guildNode(AuthorityLevel.BoundStaff),
+  'giveaway.lifecycle.cancel': guildNode(AuthorityLevel.BoundAdmin),
+  'leveling.rank.view': guildNode(AuthorityLevel.Member),
+  'leveling.admin.set': guildNode(AuthorityLevel.BoundAdmin),
+  'leveling.admin.reset': guildNode(AuthorityLevel.TrueOwner, true),
+  'leveling.rewards.manage': guildNode(AuthorityLevel.BoundAdmin),
+
+  // VoiceMaster (ownership predicates for channel.*)
+  'voicemaster.setup.manage': guildNode(AuthorityLevel.BoundAdmin),
+  'voicemaster.setup.reset': guildNode(AuthorityLevel.TrueOwner, true),
+  'voicemaster.config.joinrole': guildNode(AuthorityLevel.BoundAdmin),
+  'voicemaster.config.greeting': guildNode(AuthorityLevel.BoundAdmin),
+  'voicemaster.config.censor': guildNode(AuthorityLevel.BoundAdmin),
+  'voicemaster.channel.claim': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.transfer': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.lock': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.permit': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.reject': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.trust': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.rename': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.limit': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.bitrate': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.visibility': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.password': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.waiting': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.region': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.lfp': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.music': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.info': guildNode(AuthorityLevel.Member, false, 'ownership'),
+  'voicemaster.channel.role': guildNode(AuthorityLevel.Member, false, 'ownership'),
+
+  // tickets & modmail
+  'tickets.panel.create': guildNode(AuthorityLevel.BoundAdmin),
+  'tickets.panel.delete': guildNode(AuthorityLevel.BoundAdmin),
+  'tickets.ticket.close': guildNode(AuthorityLevel.BoundStaff, false, 'ownership'),
+  'modmail.reply': guildNode(AuthorityLevel.BoundStaff),
+  'modmail.reply.anon': guildNode(AuthorityLevel.BoundStaff),
+  'modmail.reply.real': guildNode(AuthorityLevel.BoundAdmin),
+  'modmail.thread.close': guildNode(AuthorityLevel.BoundStaff),
+
+  // user personal
+  'user.prefix.self': guildNode(AuthorityLevel.Member),
+  'user.reminders.manage': guildNode(AuthorityLevel.Member),
+
+  // global platform nodes (bot.*)
+  'bot.shards.view': globalNode(GlobalBotStaffTier.Support),
+  'bot.guilds.view': globalNode(GlobalBotStaffTier.Support),
+  'bot.system.stats': globalNode(GlobalBotStaffTier.Support),
+  'bot.logs.view': globalNode(GlobalBotStaffTier.Support),
+  'bot.audit.view': globalNode(GlobalBotStaffTier.Support),
+
+  'bot.blacklist.add': globalNode(GlobalBotStaffTier.TrustAndSafety, true),
+  'bot.blacklist.remove': globalNode(GlobalBotStaffTier.TrustAndSafety, true),
+  'bot.blacklist.view': globalNode(GlobalBotStaffTier.TrustAndSafety),
+  'bot.guilds.freeze': globalNode(GlobalBotStaffTier.TrustAndSafety, true),
+  'bot.guilds.leave': globalNode(GlobalBotStaffTier.TrustAndSafety, true),
+  'bot.tns.investigate': globalNode(GlobalBotStaffTier.TrustAndSafety),
+
+  'bot.system.maintenance': globalNode(GlobalBotStaffTier.Admin, true),
+  'bot.system.reload': globalNode(GlobalBotStaffTier.Admin, true),
+  'bot.shards.restart': globalNode(GlobalBotStaffTier.Admin, true),
+  'bot.templates.publish': globalNode(GlobalBotStaffTier.Admin),
+
+  'bot.developer.root': globalNode(GlobalBotStaffTier.Developer, true),
+  'bot.sudo.exec': globalNode(GlobalBotStaffTier.Developer, true),
+  'bot.sql': globalNode(GlobalBotStaffTier.Developer, true),
+  'bot.eval': globalNode(GlobalBotStaffTier.Developer, true),
+  'bot.staff.manage': globalNode(GlobalBotStaffTier.Developer, true),
+  'bot.partner.manage': globalNode(GlobalBotStaffTier.Developer, true),
+  'bot.partner.view': globalNode(GlobalBotStaffTier.Support),
+} as const satisfies Record<string, PermissionNodeMetadata>;
+
+export type PermissionNodeId = keyof typeof PERMISSION_NODES;
+
+export function isRegisteredPermissionNode(node: string): node is PermissionNodeId {
+  return Object.prototype.hasOwnProperty.call(PERMISSION_NODES, node);
+}
