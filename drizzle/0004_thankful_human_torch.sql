@@ -1,0 +1,1 @@
+ALTER TABLE "guild_honeypot_configs" ADD COLUMN "counter_message_id" text;

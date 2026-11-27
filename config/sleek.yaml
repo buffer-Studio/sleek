@@ -1,0 +1,57 @@
+version: 1
+prefixes:
+  defaultPrefix: ','
+  maxLength: 5
+  allowMentionFallback: true
+cooldowns:
+  defaultMs: 4000
+  burstMaxCount: 5
+  burstWindowMs: 5000
+  floodLockMs: 10000
+  severeAbuseThreshold: 8
+  countRejectedInBurst: true
+  commandOverridesMs:
+    export: 60000
+    purge: 10000
+    lock: 5000
+    unlock: 5000
+    autorole: 5000
+    ping: 4000
+    help: 4000
+security:
+  freeBindingCapPerGuild: 25
+  maxBoundAdminsPerGuild: 5
+  maxActingOwnerTrustDays: 30
+  velocityTripwires:
+    level1:
+      limit: 10
+      windowSeconds: 60
+    level2:
+      limit: 25
+      windowSeconds: 60
+    level3:
+      burstLimit: 15
+      burstWindowSeconds: 60
+      sustainedLimit: 40
+      sustainedWindowSeconds: 3600
+    level4:
+      limit: 100
+      windowSeconds: 60
+  actingOwnerHardBounds:
+    burstMin: 10
+    burstMax: 30
+    sustainedMin: 30
+    sustainedMax: 120
+aliases:
+  freeGuildAliasCap: 3
+  maxMacroSteps: 3
+  requireVoteForPersonalAliases: false
+  personalAliasCapNoVote: 5
+developer:
+  bypassCooldowns: true
+  bypassDisabledChecks: true
+  bypassIgnoreLists: true
+  bypassGuildFakePermissions: true
+  allowOverrideTrueOwnerInBot: true
+  sqlTimeoutMs: 3000
+  sqlMaxRows: 50
