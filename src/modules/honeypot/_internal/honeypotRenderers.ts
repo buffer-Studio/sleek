@@ -37,7 +37,7 @@ export const HONEYPOT_EVERYONE_DENY_BITS = String(
     (1n << 51n) | // PIN_MESSAGES
     (1n << 52n), // BYPASS_SLOWMODE
 );
-Step 3/4
+
 const DEFAULT_HONEYPOT_TEMPLATE = [
   '# DO NOT SEND A MESSAGE HERE',
   '**🇺🇸 / 🇬🇧 :** This channel is meant to catch hacked Discord accounts and notify them. Sending a message here will ban you from the server.',

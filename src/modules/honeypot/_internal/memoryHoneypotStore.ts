@@ -87,6 +87,15 @@ export function createMemoryHoneypotStore(): HoneypotStore {
       return nextCount;
     },
 
+    getGlobalDetectionCount: async () => {
+      await Promise.resolve();
+      let total = 0;
+      for (const config of configs.values()) {
+        total += config.detectionCount;
+      }
+      return total;
+    },
+
     deleteConfig: async (platform, guildId) => {
       await Promise.resolve();
       return configs.delete(key(platform, guildId));

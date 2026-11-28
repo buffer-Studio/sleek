@@ -11,12 +11,14 @@ export interface MessagingPort {
     readonly platform: PlatformId;
     readonly channelId: string;
     readonly content: string;
+    readonly components?: readonly unknown[];
   }) => Promise<Result<string, MessagingPortError>>;
   readonly editMessage: (options: {
     readonly platform: PlatformId;
     readonly channelId: string;
     readonly messageId: string;
     readonly content: string;
+    readonly components?: readonly unknown[];
   }) => Promise<Result<void, MessagingPortError>>;
   readonly deleteMessage: (options: {
     readonly platform: PlatformId;
@@ -28,5 +30,20 @@ export interface MessagingPort {
     readonly platform: PlatformId;
     readonly userId: string;
     readonly content: string;
+    readonly components?: readonly unknown[];
+    readonly flags?: number;
   }) => Promise<Result<string, MessagingPortError>>;
+  readonly createWebhook?: (options: {
+    readonly platform: PlatformId;
+    readonly channelId: string;
+    readonly name: string;
+  }) => Promise<Result<{readonly id: string; readonly token: string}, MessagingPortError>>;
+  readonly executeWebhook?: (options: {
+    readonly platform: PlatformId;
+    readonly webhookId: string;
+    readonly webhookToken: string;
+    readonly content?: string;
+    readonly embeds?: readonly unknown[];
+    readonly components?: readonly unknown[];
+  }) => Promise<Result<void, MessagingPortError>>;
 }

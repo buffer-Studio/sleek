@@ -15,6 +15,9 @@ export interface HoneypotConfig {
   readonly warningMessageId: string | undefined;
   readonly counterMessageId: string | undefined;
   readonly logChannelId: string | undefined;
+  readonly inviteUrl?: string;
+  readonly logWebhookId?: string;
+  readonly logWebhookToken?: string;
   readonly detectionCount: number;
   readonly enabled: boolean;
   readonly updatedAtMs: number;
@@ -31,6 +34,9 @@ export interface UpsertHoneypotConfigInput {
   readonly warningMessageId?: string;
   readonly counterMessageId?: string;
   readonly logChannelId?: string;
+  readonly inviteUrl?: string;
+  readonly logWebhookId?: string;
+  readonly logWebhookToken?: string;
   readonly enabled?: boolean;
 }
 
@@ -59,8 +65,10 @@ export interface HoneypotStore {
     platform: PlatformId,
     guildId: string,
     logChannelId: string | undefined,
+    webhook?: {readonly id: string; readonly token: string},
   ) => Promise<boolean>;
   readonly incrementDetectionCount: (platform: PlatformId, guildId: string) => Promise<number>;
+  readonly getGlobalDetectionCount: () => Promise<number>;
   readonly deleteConfig: (platform: PlatformId, guildId: string) => Promise<boolean>;
 }
 

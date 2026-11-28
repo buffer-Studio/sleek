@@ -146,6 +146,13 @@ export function createPgHoneypotStore(client: DatabaseClient): HoneypotStore {
       return rows[0]?.detectionCount ?? 0;
     },
 
+    getGlobalDetectionCount: async () => {
+      const rows = await db
+        .select({total: sql<number>`coalesce(sum(${guildHoneypotConfigs.detectionCount}), 0)`})
+        .from(guildHoneypotConfigs);
+      return rows[0]?.total ?? 0;
+    },
+
     deleteConfig: async (platform, guildId) => {
       const rows = await db
         .delete(guildHoneypotConfigs)

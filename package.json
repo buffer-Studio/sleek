@@ -8,7 +8,7 @@
   "scripts": {
     "start": "bun run src/app/main.ts",
     "start:cluster": "bun run src/app/cluster/clusterManager.ts",
-    "typecheck": "tsrs --noEmit --fast",
+    "typecheck": "tsrs --noEmit",
     "verify": "bun run .agents/scripts/verify-all.ts",
     "verify:ts": "bun run .agents/scripts/verify-all.ts --ts-only",
     "verify:staged": "bun run .agents/scripts/verify-staged.ts",
